@@ -68,6 +68,9 @@ public:
 	cgi();
 	~cgi();
 
+	/// Get the cgixx library version string.
+	const std::string& libver();
+
 	/// Get CGI method requested.
 	methods method() const;
 
