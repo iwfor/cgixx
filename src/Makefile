@@ -23,7 +23,7 @@ install: libcgixx.a
 	if test ! -d ${BASEDIR}/include ; then \
 		mkdir ${BASEDIR}/include \
 	fi
-	if test ! -d ${BASEDIR}/include/libtpt ; then \
+	if test ! -d ${BASEDIR}/include/cgixx ; then \
 		mkdir ${BASEDIR}/include/cgixx
 	fi
 	cp -p ../inc/cgixx/*.h ${BASEDIR}/include/cgixx/
