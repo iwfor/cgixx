@@ -4,7 +4,7 @@
 # Use on *nix platforms.
 #
 # cgixx CGI C++ Class Library
-# Copyright (C) 2002-2003 Isaac W. Foraker (isaac@tazthecat.net)
+# Copyright (C) 2002-2004 Isaac W. Foraker (isaac@tazthecat.net)
 # All Rights Reserved
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -138,11 +138,6 @@ EOT
 		exit;
 	}
 } else {
-	# make sure the given compiler is valid
-	if ((not -e $clo{'cxx'}) && (not search_path($clo{'cxx'}))) {
-		print "ERROR The C++ compiler does not appear to be valid: $clo{'cxx'}\n";
-		exit;
-	}
 	print "Using C++ compiler... $clo{'cxx'}\n";
 }
 
