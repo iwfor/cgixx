@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.05
+------------
+- Updated copyright statements.
+
 Version 1.04
 ------------
 - Stopped using std::string::clear and std::string::iterator for GCC 2.95.4

@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2002 Isaac W. Foraker (isaac@tazthecat.net)
+ * Copyright (C) 2002-2003 Isaac W. Foraker (isaac@tazthecat.net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@
 
 namespace {
 	const char* weekday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-	char* month[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+	const char* month[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 		"Sep", "Oct", "Nov", "Dec"};
 }
 

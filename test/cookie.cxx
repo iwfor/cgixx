@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2002 Isaac W. Foraker (isaac@tazthecat.net)
+ * Copyright (C) 2002-2003 Isaac W. Foraker (isaac@tazthecat.net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
 
 void test();
 
-int main(int argc, char* argv[])
+int main()
 {
 	try {
 		test();
