@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.02
+------------
+- Fixed typo in cookie module that prevented cookie expiration from working.
+
 Version 1.01
 ------------
 - Fixed error in configure.pl help.

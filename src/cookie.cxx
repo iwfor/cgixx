@@ -289,7 +289,7 @@ std::string cookie::get()
 	setmsg+= text2cgi(imp->value);
 	if (!imp->expire.empty())
 	{
-		setmsg+= "; expire=";
+		setmsg+= "; expires=";
 		setmsg+= imp->expire;
 	}
 	if (!imp->path.empty())
