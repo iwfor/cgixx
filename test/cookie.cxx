@@ -1,5 +1,5 @@
 /*
- * vars.cxx
+ * cookie.cxx
  *
  * $Id$
  *
