@@ -139,7 +139,7 @@ std::string header::get() const
 
 	if (!imp->expire.empty())
 	{
-		hdr+= "Expire: ";
+		hdr+= "Expires: ";
 		hdr+= imp->expire;
 		hdr+= "\r\n";
 	}

@@ -100,7 +100,18 @@ void test()
 			val = "Invalid header";
 		std::cout << vars[i].desc << ": " << val << "<br>\n";
 	}
+
+	cgixx::cgi::identifierlist idlist;
+	cgi.getvariablelist(idlist);
 	
+	cgixx::cgi::identifierlist::iterator it(idlist.begin()),
+		end(idlist.end());
+	for (; it != end; ++it)
+	{
+		while (!cgi.get(*it, val))
+			std::cout << *it << ": " << val << "<br>\n";
+	}
+		
 	std::cout << "</body>\n</html>\n";
 	std::cout.flush();
 }
