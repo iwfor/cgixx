@@ -102,6 +102,8 @@ void cgi_impl::getenvvar(std::string& dest, const char* name, const char* defval
 		dest = t;
 	else if (defval)
 		dest = defval;
+	else
+		dest.clear();
 }
 
 

@@ -8,8 +8,11 @@ all: test1
 test1: test1.o
 	${CXX} -o $@ test1.o ${CXXFLAGS} ${LIBS}
 
+vars: vars.o
+	${CXX} -o $@ vars.o ${CXXFLAGS} ${LIBS}
+
 clean:
-	rm -f core *.core *.o dump test1 buffertest objtest
+	rm -f core *.core *.o test1 vars
 
 .SUFFIXES: .cxx
 .cxx.o:
