@@ -42,12 +42,23 @@
 
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 namespace cgixx {
 
 /**
+ * CGI Exception
+ */
+class cgiexception : public std::runtime_error {
+	public:
+		cgiexception(const std::string& what_arg) :
+			std::runtime_error(what_arg) {}
+		cgiexception() :
+			std::runtime_error(std::string()) {}
+};
+
+/**
  * The methods enumeration lists all CGI methods supported by cgixx.
- *
  */
 enum methods {
 	method_get = 0,
@@ -59,7 +70,6 @@ enum methods {
 /**
  * The headers enumeration defines headers that can be returned with
  * a call to getheader().
- *
  */
 enum headers {
 	header_request_method,
