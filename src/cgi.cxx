@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2002-2003 Isaac W. Foraker (isaac@tazthecat.net)
+ * Copyright (C) 2002-2004 Isaac W. Foraker (isaac@tazthecat.net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@
 
 namespace cgixx {
 
-static const std::string cgixx_version("1.06");
+static const std::string cgixx_version("1.07");
 
 /**
  * Construct an instance of cgi.
