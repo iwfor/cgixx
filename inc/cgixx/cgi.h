@@ -36,6 +36,9 @@ public:
 	// Get path
 	const std::string& path() const;
 
+	static std::string text2cgi(const std::string& text);
+	static std::string cgi2text(const std::string& message);
+
 private:
 	operator=(const cgi&);
 

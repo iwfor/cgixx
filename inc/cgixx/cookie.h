@@ -22,22 +22,26 @@ public:
 	cookie(const cgi& initcgi, const std::string& name,
 		const std::string& value="");
 	cookie(const std::string& name, const std::string& value="");
+	cookie(const cookie& copy);
 	~cookie();
 
 	void setvalue(const std::string& value);
 	void setdomain(const std::string& domain);
 	void setpath(const std::string& path);
-	void setexpire(const std::string& expire);
-	void setexpire(const std::tm& expire);
+	void setexpire(const std::string& expires);
+	void setexpire(const std::tm& expires);
 	void setsecure(bool requiressl);
 
-	cookie& operator=(const cookie&);
+	const std::string& getname() const;
+	const std::string& getvalue() const;
 
 	// Get cookie string
 	std::string get();
 
 private:
 	cookie();
+	cookie& operator=(const cookie&);
+
 	cookie_impl* imp;
 };
 
