@@ -11,6 +11,11 @@ libcgixx.a: ${OBJECTS}
 	${AR} ${ARFLAGS} $@ ${OBJECTS}
 	cp -p $@ ../lib/
 
+install: libcgixx.a
+	cp -p libcgixx.a /usr/local/lib/
+	mkdir /usr/local/include/cgixx
+	cp -p ../inc/cgixx/*.h /usr/local/include/cgixx/
+
 clean:
 	rm -f core *.core ${OBJECTS} libcgixx.a
 
