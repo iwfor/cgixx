@@ -12,6 +12,13 @@
 
 namespace cgixx {
 
+enum methods {
+	method_get = 0,
+	method_post,
+	method_head,
+	method_put
+};
+
 // Forward declaration
 struct cgi_impl;
 class cookie;
@@ -20,6 +27,9 @@ class cgi {
 public:
 	cgi();
 	~cgi();
+
+	// Get the method used
+	const std::string& method();
 
 	// Get count of a variable
 	unsigned count(const std::string& id);
