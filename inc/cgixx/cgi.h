@@ -146,7 +146,8 @@ private:
 	cgi_impl* imp;
 };
 
-//extern char **environ;
+// Other useful functions
+std::string& makesafestring(const std::string& instr, std::string& outstr);
 
 } // end namespace cgixx
 

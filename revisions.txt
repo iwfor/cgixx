@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.03
+- Added function makesafestring to convert a string to user percent hex
+  notation for non-alphanumeric characters.
+
 Version 1.02
 ------------
 - Fixed typo in cookie module that prevented cookie expiration from working.

@@ -39,10 +39,12 @@
 
 #include <cgixx/cgi.h>
 #include "cgi_impl.h"
+#include <cstdio>
+#include <cctype>
 
 namespace cgixx {
 
-static const std::string cgixx_version("1.02");
+static const std::string cgixx_version("1.03");
 
 /**
  * Construct an instance of cgi.
@@ -319,6 +321,33 @@ bool cgi::getheader(headers hid, std::string& copy) const
 methods cgi::getmethod() const
 {
 	return imp->method;
+}
+
+/**
+ * Convert a string for use in a URL.  All non-alphanumeric characters in the
+ * string will be converted to %hex notation.
+ *
+ * @param	instr		Input string
+ * @param	outstr		Output string
+ */
+std::string& makesafestring(const std::string& instr, std::string& outstr)
+{
+	outstr.clear();
+	std::string::const_iterator it(instr.begin()), end(instr.end());
+	char buf[16];
+	for (; it != end; ++it)
+	{
+		if (std::isalnum(*it))
+			outstr+= *it;
+		else
+		{
+			unsigned char c = *it;
+			std::sprintf(buf, "%02X", c);
+			outstr+= '%';
+			outstr+= buf;
+		}
+	}
+	return outstr;
 }
 
 } // end namespace cgixx
