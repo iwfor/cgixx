@@ -41,7 +41,7 @@ my $contrib_dir = "${cwd}${dirsep}src${dirsep}contrib";
 my $install_spec= "doc${dirsep}install.spec";
 
 my $includes	= "--include '${cwd}${dirsep}inc' ";
-my $libraries	= "--slinkwith '${cwd}${dirsep}src${dirsep}lib,$libname' ";
+my $libraries	= "--slinkwith '${cwd}${dirsep}src,$libname' ";
 
 my @extra_compile = (
 	"${cwd}${dirsep}src"
@@ -131,8 +131,8 @@ sub generate_toplevel_makefile {
 }
 ################################################################################
 sub generate_library_makefile {
-	if (not chdir("$cwd${dirsep}src${dirsep}lib")) {
-		print STDERR "\n$0: can't chdir to src${dirsep}lib: $!\n";
+	if (not chdir("$cwd${dirsep}src")) {
+		print STDERR "\n$0: can't chdir to src: $!\n";
 		exit 1;
 	}
 

@@ -9,13 +9,14 @@ See http://tazthecat.net/~isaac/cgixx/ for documentation.
 UNIX
 ----
 # Make sure GCC 3.x is set up as your compiler.
-cd src/
+
+./configure [--help]
 make
 (as root)
 make install
 
-You may want to edit the make file to change the installation path from the
-default /usr/local to where you keep your libraries and headers.
+You can override the default install path of /usr/local by using the
+--prefix=/path/to/install option with configure.pl.
 
 WINDOWS
 -------
@@ -23,10 +24,6 @@ WINDOWS
 # Note: Windows is not officially supported, so good luck!
 Load w32/cgixx.dsw
 Build cgixx_static.
-
-LIBRARY
--------
-The cgixx library file lives in lib/.
 
 TESTING
 -------

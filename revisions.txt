@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.00
+------------
+- Added configure/build system based on cxxtools.
+
 Version 0.81-beta
 -----------------
 - Fixed header::redirect() method.

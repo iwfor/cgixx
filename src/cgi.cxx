@@ -42,7 +42,7 @@
 
 namespace cgixx {
 
-static std::string cgixx_version("0.81");
+static std::string cgixx_version("1.00");
 
 /**
  * Construct an instance of cgi.
