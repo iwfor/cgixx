@@ -24,8 +24,7 @@ struct header_impl
 	std::string expire;
 	std::string location;
 
-	std::vector< cookie > cookies;
-	std::vector< std::string> extra_headers;
+	std::vector< std::string > extra_headers;
 
 	header_impl() : httpver("HTTP/1.0"), content_length(0),
 		content_type("text/html") {}
@@ -110,6 +109,14 @@ std::string header::get() const
 	{
 		hdr+= "Expire: ";
 		hdr+= imp->expire;
+		hdr+= "\r\n";
+	}
+
+	std::vector< std::string >::const_iterator it(imp->extra_headers.begin()),
+		end(imp->extra_headers.end());
+	for (; it != end; ++it)
+	{
+		hdr+= *it;
 		hdr+= "\r\n";
 	}
 
@@ -231,6 +238,11 @@ void header::setheader(const std::string& id, const std::string& value)
 	imp->extra_headers.push_back(newhead);
 }
 
+void header::addcookie(cookie& value)
+{
+	imp->extra_headers.push_back(value.get());
+}
+
 /**
  * Set the expiration date for the document.
  *
@@ -300,6 +312,5 @@ bool header::setexpire(const std::string& expire)
 	imp->expire = expire;
 	return true;
 }
-
 
 } // end namespace cgixx

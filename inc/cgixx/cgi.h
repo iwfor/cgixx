@@ -29,25 +29,22 @@ public:
 	~cgi();
 
 	// Get the method used
-	const std::string& method();
+	methods method() const;
 
 	// Get count of a variable
-	unsigned count(const std::string& id);
+	unsigned count(const std::string& id) const;
 
 	// Get next available value of a variable
-	bool get(const std::string& id, std::string& value);
+	bool get(const std::string& id, std::string& value) const;
 
 	// Get next available value of a cookie
-	bool getcookie(const std::string& id, cookie& value);
+	bool getcookie(const std::string& id, cookie& value) const;
 
 	// Get server
 	const std::string& server() const;
 
 	// Get path
 	const std::string& path() const;
-
-	static std::string text2cgi(const std::string& text);
-	static std::string cgi2text(const std::string& message);
 
 private:
 	operator=(const cgi&);

@@ -23,14 +23,11 @@ struct cgi_impl {
 	// Store an environment variable in the specified string.
 	void getenvvar(std::string& dest, const char* name, const char* defval=0);
 
-	static std::string cgi2text(const std::string& cgistr);
-	static std::string text2cgi(const std::string& textstr);
-
-	static unsigned char hex2dec(char c);
-	static unsigned char dec2hex(char c);
+	void parsecookies(const std::string&);
 
 	// Map of parameters.
 	ParameterList vars;
+	ParameterList cookies;
 
 	// The method with which the request was made. For HTTP, this is
 	// "GET", "HEAD", "POST", etc.
@@ -115,6 +112,12 @@ struct cgi_impl {
 	// format: software/version library/version.
 	std::string http_user_agent;
 };
+
+std::string cgi2text(const std::string& cgistr);
+std::string text2cgi(const std::string& textstr);
+
+unsigned char hex2dec(char c);
+unsigned char dec2hex(char c);
 
 } // end namespace cgixx
 

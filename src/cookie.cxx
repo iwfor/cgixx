@@ -5,6 +5,7 @@
  *
  */
 
+#include "cgi_impl.h"
 #include "timedefs.inl"
 #include <cgixx/cookie.h>
 #include <cgixx/cgi.h>
@@ -149,9 +150,9 @@ const std::string& cookie::getvalue() const
 std::string cookie::get()
 {
 	std::string setmsg("Set-Cookie: ");
-	setmsg+= cgi::text2cgi(imp->name);
+	setmsg+= text2cgi(imp->name);
 	setmsg+= '=';
-	setmsg+= cgi::text2cgi(imp->value);
+	setmsg+= text2cgi(imp->value);
 	if (!imp->expire.empty())
 	{
 		setmsg+= "; expire=";

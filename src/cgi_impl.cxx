@@ -49,6 +49,9 @@ cgi_impl::cgi_impl()
 	getenvvar(http_accept, "HTTP_ACCEPT");
 	getenvvar(http_user_agent, "HTTP_USER_AGENT");
 
+	getenvvar(temp, "HTTP_COOKIE");
+	parsecookies(temp);
+
 	if (method == method_post)
 	{
 		// Parse STDIN
@@ -82,6 +85,38 @@ void cgi_impl::getenvvar(std::string& dest, const char* name, const char* defval
 }
 
 
+/*
+ * Parse cookies from HTTP_COOKIE environment variable.
+ * Format: id=val; id=val; id=val
+ *
+ */
+void cgi_impl::parsecookies(const std::string& cookielist)
+{
+	std::string id, val;
+	std::size_t pos = 0, newpos, len = cookielist.length();
+	while ((pos < len) &&
+		((newpos = cookielist.find('=', pos)) != std::string::npos))
+	{
+		id = cgi2text(cookielist.substr(pos, newpos-pos));
+		pos = newpos + 1;	// skip '='
+		newpos = cookielist.find(';', pos);
+		if (newpos == std::string::npos)
+		{
+			val = cgi2text(cookielist.substr(pos));
+		}
+		else
+		{
+			val = cgi2text(cookielist.substr(pos, newpos-pos));
+			// Skip whitespace
+			++newpos;
+			while (std::isspace(cookielist[newpos]))
+				++newpos;
+			pos = newpos;	// skip '&'
+		}
+		vars[id] = val;
+	}
+}
+
 void cgi_impl::parseparams(const std::string& paramlist)
 {
 	if (paramlist.find('=') == std::string::npos)
@@ -94,20 +129,28 @@ void cgi_impl::parseparams(const std::string& paramlist)
 		// identifiers are delimited by = and values are delimited by
 		// & or \0.
 		std::string id, val;
-		std::size_t pos = 0, newpos;
-		while ((pos != std::string::npos) &&
+		std::size_t pos = 0, newpos, len = paramlist.length();
+		while ((pos < len) &&
 			((newpos = paramlist.find('=', pos)) != std::string::npos))
 		{
-			id = cgi2text(paramlist.substr(newpos, pos-newpos));
+			id = cgi2text(paramlist.substr(pos, newpos-pos));
 			pos = newpos + 1;	// skip '='
 			newpos = paramlist.find('&', pos);
-			val = cgi2text(paramlist.substr(newpos, pos-newpos));
-			pos = newpos + 1;	// skip '&'
+			if (newpos == std::string::npos)
+			{
+				val = cgi2text(paramlist.substr(pos));
+			}
+			else
+			{
+				val = cgi2text(paramlist.substr(pos, newpos-pos));
+				pos = newpos + 1;	// skip '&'
+			}
+			vars[id] = val;
 		}
 	}
 }
 
-static std::string cgi_impl::cgi2text(const std::string& cgistr)
+std::string cgi2text(const std::string& cgistr)
 {
 	std::string textstr;
 	std::string::const_iterator it(cgistr.begin()), end(cgistr.end());
@@ -133,7 +176,7 @@ static std::string cgi_impl::cgi2text(const std::string& cgistr)
 	return textstr;
 }
 
-static std::string cgi_impl::text2cgi(const std::string& textstr)
+std::string text2cgi(const std::string& textstr)
 {
 	std::string cgistr;
 	std::string::const_iterator it(textstr.begin()), end(textstr.end());
@@ -152,7 +195,7 @@ static std::string cgi_impl::text2cgi(const std::string& textstr)
 	return cgistr;
 }
 
-static unsigned char cgi_impl::dec2hex(char c)
+unsigned char dec2hex(char c)
 {
 	if (c < 10)
 		return c + '0';
@@ -162,7 +205,7 @@ static unsigned char cgi_impl::dec2hex(char c)
 		return '0';
 }
 
-static unsigned char cgi_impl::hex2dec(char c)
+unsigned char hex2dec(char c)
 {
 	switch (c) {
 	case 'A':
