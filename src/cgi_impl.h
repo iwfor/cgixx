@@ -116,7 +116,7 @@ struct cgi_impl {
 	std::string remote_addr;
 
 	// If the server supports user authentication, and the script is
-	// protects, this is the protocol-specific authentication method
+	// protected, this is the protocol-specific authentication method
 	// used to validate the user.
 	std::string auth_type;
 

@@ -58,6 +58,16 @@ struct cookie_impl {
 	bool secure;
 };
 
+
+/**
+ * Construct a cookie on a cgi session.  The cgi session will be used
+ * to prepopulate domain and path.
+ *
+ * @param	initcgi		Reference to cgi instance.
+ * @param	name		Name of this cookie.
+ * @param	value		Value of this cookie.
+ *
+ */
 cookie::cookie(const cgi& initcgi, const std::string& name,
 			   const std::string& value)
 	: imp(new cookie_impl)
@@ -65,10 +75,18 @@ cookie::cookie(const cgi& initcgi, const std::string& name,
 	imp->name = name;
 	imp->value = value;
 	imp->domain = initcgi.server();
-	imp->path = initcgi.path();
+	imp->path = initcgi.script();
 	imp->secure = false;
 }
 
+
+/**
+ * Construct a basic cookie.
+ *
+ * @param	name		Name of this cookie.
+ * @param	value		Value of this cookie.
+ *
+ */
 cookie::cookie(const std::string& name, const std::string& value)
 	: imp(new cookie_impl)
 {
@@ -77,6 +95,13 @@ cookie::cookie(const std::string& name, const std::string& value)
 	imp->secure = false;
 }
 
+
+/**
+ * Construct a copy of another cookie.
+ *
+ * @param	copy	Reference to cookie to copy.
+ *
+ */
 cookie::cookie(const cookie& copy)
 	: imp(new cookie_impl)
 {
@@ -89,30 +114,83 @@ cookie::cookie(const cookie& copy)
 }
 
 
+/**
+ * Destroy *this instance of cookie.
+ *
+ */
 cookie::~cookie()
 {
 	delete imp;
 }
 
+
+/**
+ * Set the value of this cookie.
+ *
+ * @param	value		Value for this cookie.
+ * @return	nothing
+ *
+ */
 void cookie::setvalue(const std::string& value)
 {
+	imp->value = value;
 }
 
+
+/**
+ * The the domain of this cookie.
+ *
+ * @param	domain		Domain for this cookie.
+ * @return	nothing
+ *
+ */
 void cookie::setdomain(const std::string& domain)
 {
 	imp->domain = domain;
 }
 
+
+/**
+ * Set the path of this cookie.
+ *
+ * @param	path		Path for this cookie.
+ * @return	nothing
+ *
+ */
 void cookie::setpath(const std::string& path)
 {
 	imp->path = path;
 }
 
+
+/**
+ * Specify whether this cookie requires an ssl connection in order for
+ * the client to transmit this cookie.
+ *
+ * @param	requiressl	When true, require ssl.
+ * @return	nothing
+ *
+ */
 void cookie::setsecure(bool requiressl)
 {
 	imp->secure = requiressl;
 }
 
+
+/**
+ * Set the expiration date and time for this cookie.
+ *
+ * @param	expire		The expire parameter my be either the RFC 850
+ *						encoded date of expiration, or an offset string
+ *						containing "(-)123(M|H|S|D|W|m|Y)".  I.e. a
+ *						number (negative numbers generally cause the
+ *						document to expire immediately) followed by a
+ *						time modifier.  M=minute, H=hour, S=second,
+ *						D=day, W=week, m=month, Y=year.
+ * @return	false if the offset was successfully parsed into a date;
+ * @return	true if the the expire string was accepted as is.
+ *
+ */
 bool cookie::setexpire(const std::string& expire)
 {
 	unsigned pos = 0;
@@ -168,17 +246,41 @@ bool cookie::setexpire(const std::string& expire)
 	return true;
 }
 
+
+/**
+ * Get the name of this cookie.
+ *
+ * @param	none
+ * @return	The name of this cookie.
+ *
+ */
 const std::string& cookie::getname() const
 {
 	return imp->name;
 }
 
+
+/**
+ * Get the value of this cookie.
+ *
+ * @param	none
+ * @return	The value of this cookie.
+ *
+ */
 const std::string& cookie::getvalue() const
 {
 	return imp->value;
 }
 
-//Set-Cookie: NAME=VALUE; expire=DATE; path=PATH; domain=DOMAIN_NAME; secure
+/**
+ * Get the formatted cookie header of the form:
+ *
+ * Set-Cookie: NAME=VALUE; expire=DATE; path=PATH; domain=DOMAIN_NAME; secure
+ *
+ * @param	none
+ * @return	The formatted cookie header.
+ *
+ */
 std::string cookie::get()
 {
 	std::string setmsg("Set-Cookie: ");

@@ -246,22 +246,57 @@ void header::setstatus(unsigned status, const std::string& description)
 	}
 }
 
+
+/**
+ * Set the content length to be sent to the client.
+ *
+ * @param	length		The content length.
+ * @return	nothing
+ *
+ */
 void header::setlength(unsigned length)
 {
 	imp->content_length = length;
 }
 
-// Content-type
+
+/**
+ * Set the mime type of the content to be sent to the client.  This is
+ * only required if content other than HTML is being returned.
+ * Format: type/sub-type
+ *
+ * @param	contenttype		The content mime type (e.g. image/jpg).
+ * @return	nothing
+ *
+ */
 void header::settype(const std::string& contenttype)
 {
 	imp->content_type = contenttype;
 }
 
+
+/**
+ * Set the HTTP version string, overriding the web servers processing
+ * of the HTTP headers returned by this program.
+ *
+ * @param	httpversion		The HTTP version string (e.g. HTTP/1.1).
+ * @return	nothing
+ *
+ */
 void header::override(const std::string& httpversion)
 {
 	imp->httpver = httpversion;
 }
 
+
+/**
+ * Set a user-defined HTTP header.
+ *
+ * @param	id		Identifier for header.
+ * @param	value	Value of header.
+ * @return	nothing
+ *
+ */
 void header::setheader(const std::string& id, const std::string& value)
 {
 	std::string newhead(id);
@@ -270,10 +305,19 @@ void header::setheader(const std::string& id, const std::string& value)
 	imp->extra_headers.push_back(newhead);
 }
 
+
+/**
+ * Add a cookie to the header.
+ *
+ * @param	value	Reference to completed cookie.
+ * @return	nothing
+ *
+ */
 void header::addcookie(cookie& value)
 {
 	imp->extra_headers.push_back(value.get());
 }
+
 
 /**
  * Set the expiration date for the document.

@@ -89,10 +89,56 @@ public:
 	/// Get web server port.
 	unsigned serverport() const;
 
-	/// Get CGI script path.
-	const std::string& path() const;
+	/// Get web server protocol.
+	const std::string& serverprotocol() const;
+
+	/// Get the CGI version supported by the web server.
+	const std::string& gatewayinterface() const;
+
+	/// Get the name of the server software.
+	const std::string& serversoftware() const;
+
+	/// Get extra path information.
+	const std::string& pathinfo() const;
+
+	/// Get CGI script real path.
+	const std::string& realpath() const;
+
+	/// Get virtual path to this script.
+	const std::string& script() const;
+
+	/// Get the remote host.
+	const std::string& remotehost() const;
+
+	/// Get the remote address.
+	const std::string& remoteaddr() const;
+
+	/// Get the authorization type.
+	const std::string& authtype() const;
+
+	/// Get the username.
+	const std::string& remoteusername() const;
+
+	/// Get the remote identity.
+	const std::string& remoteidentity() const;
+
+	/// Get the content type.
+	const std::string& contenttype() const;
+
+	/// Get the content length.
+	unsigned long contentlength() const;
+
+	/// Get the mime types accepted by the client.
+	const std::string& httpaccept() const;
+
+	/// Get user agent (i.e. web browser software)
+	const std::string& agent() const;
+
 
 private:
+	// There is no copy constructor.
+	cgi(const cgi&);
+	// There is not copy operator.
 	operator=(const cgi&);
 
 	cgi_impl* imp;
