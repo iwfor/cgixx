@@ -5,6 +5,42 @@
  *
  */
 
+/*
+ * Copyright (C) 2002 Isaac W. Foraker (isaac@tazthecat.net)
+ * All Rights Reserved
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ * 3. Neither the name of the Author nor the names of its contributors
+ *    may be used to endorse or promote products derived from this
+ *    software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+#ifdef _MSC_VER
+#	pragma warning(disable:4503)
+#endif
+
 #include "cgi_impl.h"
 #include <iostream>
 #include <memory>
@@ -34,7 +70,8 @@ cgi_impl::cgi_impl()
 	getenvvar(server_name, "SERVER_NAME");
 	getenvvar(gateway_interface, "GATEWAY_INTERFACE");
 	getenvvar(server_protocol, "SERVER_PROTOCOL");
-	getenvvar(server_port, "SERVER_PORT");
+	getenvvar(temp, "SERVER_PORT");
+	server_port = std::atoi(temp.c_str());
 	getenvvar(path_info, "PATH_INFO");
 	getenvvar(path_translated, "PATH_TRANSLATED");
 	getenvvar(script_name, "SCRIPT_NAME");
@@ -113,7 +150,7 @@ void cgi_impl::parsecookies(const std::string& cookielist)
 				++newpos;
 			pos = newpos;	// skip '&'
 		}
-		vars[id] = val;
+		vars[id].push(val);
 	}
 }
 
@@ -122,7 +159,7 @@ void cgi_impl::parseparams(const std::string& paramlist)
 	if (paramlist.find('=') == std::string::npos)
 	{
 		// ISINDEX
-		vars["query_string"] = cgi2text(query_string);
+		vars["query_string"].push(cgi2text(query_string));
 	}
 	else
 	{
@@ -145,7 +182,7 @@ void cgi_impl::parseparams(const std::string& paramlist)
 				val = cgi2text(paramlist.substr(pos, newpos-pos));
 				pos = newpos + 1;	// skip '&'
 			}
-			vars[id] = val;
+			vars[id].push(val);
 		}
 	}
 }
