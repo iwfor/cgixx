@@ -53,20 +53,22 @@ use constant ID			=> '$Id$';
 # Global Variables
 my $cwd = cwd();
 my %clo;
-my $dirsep = "/";
 
-my $mkmf	= "${cwd}${dirsep}tools${dirsep}mkmf";
-my $cxxflags	= "${cwd}${dirsep}tools${dirsep}cxxflags";
+# Possible names for the compiler
+my @cxx_guess = qw(g++ c++ CC cl bcc32);
+
+my $mkmf	= "${cwd}/tools/mkmf";
+my $cxxflags	= "${cwd}/tools/cxxflags";
 my $mkmf_flags  = "--cxxflags '$cxxflags' --quiet ";
 
 my $libname	= "cgixx";
-my $install_spec= "doc${dirsep}install.spec";
+my $install_spec= "doc/install.spec";
 
-my $includes	= "--include '${cwd}${dirsep}inc' ";
-my $libraries	= "--slinkwith '${cwd}${dirsep}src,$libname' ";
+my $includes	= "--include '${cwd}/inc' ";
+my $libraries	= "--slinkwith '${cwd}/src,$libname' ";
 
-my @extra_compile = (
-	"${cwd}${dirsep}src",
+my @compile_dirs = (
+	"${cwd}/src",
 	"${cwd}/test"
 );
 
@@ -74,32 +76,27 @@ my @extra_compile = (
 # Code Start
 $|++;
 
-if (not defined $ENV{'CXX'}) {
-	print STDERR "*** your CXX environment variable is not set. cgixx needs this ***\n";
-	print STDERR "*** variable to find your C++ compiler. Please set it to the   ***\n";
-	print STDERR "*** path to your compiler and re-run configure.pl. Thanks.     ***\n";
-	exit 1;
-}
-
 GetOptions(
 	\%clo,
 	'help',
+	'bundle',
 	'developer',
 	'prefix=s',
 	'bindir=s',
 	'incdir=s',
 	'libdir=s',
+	'cxx=s'
 ) or usage();
 $clo{'help'} && usage();
 
 sub usage {
 	print "Usage: $0 [options]\n", <<EOT;
-  --developer        Turn on developer mode
+--developer        Turn on developer mode
 
-  --prefix path      Set the install prefix to path  [/usr/local]
-  --bindir path      Set the install bin dir to path [PREFIX/bin]
-  --incdir path      Set the install inc dir to path [PREFIX/inc]
-  --libdir path      Set the install lib dir to path [PREFIX/lib]
+--prefix path      Set the install prefix to path  [/usr/local]
+--bindir path      Set the install bin dir to path [PREFIX/bin]
+--incdir path      Set the install inc dir to path [PREFIX/inc]
+--libdir path      Set the install lib dir to path [PREFIX/lib]
 EOT
 	exit;
 }
@@ -108,9 +105,45 @@ $clo{'prefix'}	||= "/usr/local";
 $clo{'bindir'}	||= "$clo{'prefix'}/bin";
 $clo{'incdir'}	||= "$clo{'prefix'}/include";
 $clo{'libdir'}	||= "$clo{'prefix'}/lib";
-	
+
+print "Configuring cgixx...\n";
+
 if ($clo{'developer'}) {
+	print "Developer extensions... enabled\n";
 	$mkmf_flags .= "--developer ";
+}
+
+#####
+# Determine C++ compiler settings
+$clo{'cxx'} ||= $ENV{'CXX'};
+if (not $clo{'cxx'}) {
+	print "Checking C++ compiler... ";
+	my $path;
+	# search for a compiler
+	foreach (@cxx_guess) {
+		if ($path = search_path($_)) {
+			$clo{'cxx'} = "$path/$_";
+			last;
+		}
+	}
+	if ($clo{'cxx'}) {
+		print "$clo{'cxx'}\n";
+	} else {
+		print <<EOT;
+Not found.
+
+You must specify your C++ compiler with the --cxx parameter or by setting the
+CXX environment variable.
+EOT
+		exit;
+	}
+} else {
+	# make sure the given compiler is valid
+	if ((not -e $clo{'cxx'}) && (not search_path($clo{'cxx'}))) {
+		print "ERROR The C++ compiler does not appear to be valid: $clo{'cxx'}\n";
+		exit;
+	}
+	print "Using C++ compiler... $clo{'cxx'}\n";
 }
 
 print "Generating cgixx Makefiles ";
@@ -118,17 +151,28 @@ generate_toplevel_makefile();
 generate_library_makefile();
 generate_tests_makefile();
 print "\n";
-print "+-------------------------------------------------------------+\n";
-print "| Okay, looks like you are ready to go.  To build, type:      |\n";
-print "|                                                             |\n";
-print "|       make                                                  |\n";
-print "|                                                             |\n";
-print "| To install, type:                                           |\n";
-print "|                                                             |\n";
-print "|       make install                                          |\n";
-print "|                                                             |\n";
-print "| While you wait, why not drop a note to isaac\@tazthecat.net? |\n";
-print "+-------------------------------------------------------------+\n";
+if (!$clo{'bundle'}) {
+	print "\n";
+	print "Install Prefix:          $clo{'prefix'}\n";
+	print "Binary Install Path:     $clo{'bindir'}\n";
+	print "Includes Install Path:   $clo{'incdir'}\n";
+	print "Libraries Install Path:  $clo{'libdir'}\n";
+	print "\n";
+
+	print <<EOT;
+===============================================================================
+
+Configuration complete.  To build, type:
+
+make
+
+To install, type:
+
+make install
+
+===============================================================================
+EOT
+}
 
 
 sub generate_toplevel_makefile {
@@ -143,13 +187,13 @@ sub generate_toplevel_makefile {
 	print SPEC "include-dir inc/cgixx cgixx\n";
 	close SPEC;
 
-	system("$^X $mkmf $mkmf_flags --install $install_spec --wrapper @extra_compile");
+	system("$^X $mkmf $mkmf_flags --install $install_spec --wrapper @compile_dirs");
 	print ".";
 }
 
 
 sub generate_library_makefile {
-	if (not chdir("$cwd${dirsep}src")) {
+	if (not chdir("$cwd/src")) {
 		print STDERR "\n$0: can't chdir to src: $!\n";
 		exit 1;
 	}
@@ -167,5 +211,22 @@ sub generate_tests_makefile {
 	system("$^X $mkmf $mkmf_flags $includes $libraries --quiet --many-exec *.cxx");
 	print ".";
 	chdir $cwd;
+}
+
+# Search the path for the specified program.
+sub search_path {
+	my $prog = shift;
+	# Determine search paths
+	my $path = $ENV{'PATH'} || $ENV{'Path'} || $ENV{'path'};
+	my @paths = split /[;| |:]/, $path;
+
+	my $ext = $^O =~ /win/i ? '.exe' : '';
+
+	foreach (@paths) {
+		if (-e "$_/$prog$ext") {
+			return $_;
+		}
+	}
+	return undef;
 }
 
