@@ -1,6 +1,11 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.07
+------------
+- Removed a buggy compiler check from configure.pl.
+- Fixed negation of unsigned variable (patch from Andrew D. Fernandes).
+
 Version 1.06
 ------------
 - Optimized reading from STDIN to read a block of data into a buffer, instead
