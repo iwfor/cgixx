@@ -28,8 +28,7 @@ public:
 	void setvalue(const std::string& value);
 	void setdomain(const std::string& domain);
 	void setpath(const std::string& path);
-	void setexpire(const std::string& expires);
-	void setexpire(const std::tm& expires);
+	bool setexpire(const std::string& expire);
 	void setsecure(bool requiressl);
 
 	const std::string& getname() const;
