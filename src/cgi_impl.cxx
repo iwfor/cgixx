@@ -1,5 +1,5 @@
 /*
- * cgi_impl.h
+ * cgi_impl.cxx
  *
  * $Id$
  *
@@ -47,6 +47,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cctype>
+#include <ctime>
 
 namespace cgixx {
 
@@ -68,25 +69,35 @@ cgi_impl::cgi_impl()
 	getenvvar(temp, "CONTENT_LENGTH");
 	unsigned long clength = std::atoi(temp.c_str());
 
-	if (method == method_post)
-	{
-		// Parse STDIN
-		if (clength)
-		{
-			char c;
+	if (method == method_post) {
+		// Read STDIN
+		if (clength) {
+			char buf[1024];  // Read in up to 1 KB at a time.
+			unsigned x;
 			temp.erase();
-			while (clength > 0)
-			{
-				std::cin >> c;
-				temp+= c;
-				--clength;
+			// clength will be decreased to 0 when all data is read.
+			while (clength > 0) {
+				// Note: if the client stops sending data here, the web server
+				// should automatically timeout and kill the connection.
+				std::cin.read(buf, sizeof(buf));
+				x = std::cin.gcount();
+				if (x) {
+					if (x > clength) {
+						// Client is sending too much data, so abort.
+						throw cgiexception("Client sent more data than defined by CONTENT_LENGTH");
+					}
+					// Decrease clength by the amount received.
+					clength-= x;
+					temp.append(buf, x);
+				} else if (std::cin.eof()) {
+					// There is no more input
+					throw cgiexception("Expected more data on STDIN");
+				}
 			}
 			parseparams(temp);
 		}
 		// else no parameters
-	}
-	else	// GET, HEAD, PUT
-	{
+	} else {	// GET, HEAD, PUT
 		// Parse QUERY_STRING
 		getenvvar(temp, "QUERY_STRING");
 		parseparams(temp);
