@@ -99,8 +99,6 @@ sub usage {
   --bindir path      Set the install bin dir to path [PREFIX/bin]
   --incdir path      Set the install inc dir to path [PREFIX/inc]
   --libdir path      Set the install lib dir to path [PREFIX/lib]
-
-  --xml2-config path  Use the xml2-config script given by path.
 EOT
 	exit;
 }

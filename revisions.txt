@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version
+-------
+- Fixed error in configure.pl help.
+
 Version 1.00
 ------------
 - Added configure/build system based on cxxtools.
