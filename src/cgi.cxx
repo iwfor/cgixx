@@ -80,8 +80,8 @@ const std::string& cgi::libver()
  * Get the count of values for the CGI variable with the specified id.
  * This count is decremented with each call to get.
  *
- * @param	id		Identifier of cookie.
- * @return	Count of values for specified cookie.
+ * @param	id		Identifier of variable.
+ * @return	Count of values for vairable.
  *
  */
 unsigned cgi::count(const std::string& id) const
@@ -90,6 +90,22 @@ unsigned cgi::count(const std::string& id) const
 	if (it == imp->vars.end())
 		return 0;
 	return it->second.size();
+}
+
+
+/**
+ * Check whether the specified variable exists.  This result is
+ * affected by calls to get.
+ *
+ * @param	id		Identifier of variable.
+ * @return	true if variable exists;
+ * @return	false if variable does not exist.
+ *
+ */
+bool cgi::exists(const std::string& id)
+{
+	ParameterList::const_iterator it(imp->vars.find(id));
+	return it != imp->vars.end();
 }
 
 
@@ -118,6 +134,25 @@ bool cgi::get(const std::string& id, std::string& value)
 
 
 /**
+ * Get the list of variable identifiers.  If all values for a variable
+ * are retrieved using get, the associated variable identifier will not
+ * be returned by getvariablelist.
+ *
+ * @param	list		Reference to list to receive variable IDs.
+ * @return	nothing
+ *
+ */
+void cgi::getvariablelist(identifierlist& idlist) const
+{
+	ParameterList::const_iterator it(imp->vars.begin()),
+		end(imp->vars.end());
+	idlist.clear();
+	for (; it != end; ++it)
+		idlist.push_back(it->first);
+}
+
+
+/**
  * Get the count of values for the cookie with the specified id.  This
  * count is decremented with each call to getcookie.
  *
@@ -131,6 +166,22 @@ unsigned cgi::countcookie(const std::string& id) const
 	if (it == imp->cookies.end())
 		return 0;
 	return it->second.size();
+}
+
+
+/**
+ * Check whether the specified cookie exists.  This result is
+ * affected by calls to getcookie.
+ *
+ * @param	id		Identifier of cookie.
+ * @return	true if cookie exists;
+ * @return	false if cookie does not exist.
+ *
+ */
+bool cgi::cookieexists(const std::string& id)
+{
+	ParameterList::const_iterator it(imp->cookies.find(id));
+	return it != imp->cookies.end();
 }
 
 
@@ -155,6 +206,25 @@ bool cgi::getcookie(const std::string& id, std::string& value)
 	if (it->second.empty())
 		imp->cookies.erase(it);
 	return false;
+}
+
+
+/**
+ * Get the list of cookie identifiers.  If all values for a cookie
+ * are retrieved using get, the associated cookie identifier will not
+ * be returned by getcookielist.
+ *
+ * @param	list		Reference to list to receive cookie IDs.
+ * @return	nothing
+ *
+ */
+void cgi::getcookielist(identifierlist& idlist) const
+{
+	ParameterList::const_iterator it(imp->cookies.begin()),
+		end(imp->cookies.end());
+	idlist.clear();
+	for (; it != end; ++it)
+		idlist.push_back(it->first);
 }
 
 

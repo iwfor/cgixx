@@ -41,6 +41,7 @@
 #define __cgixx_cgi_h
 
 #include <string>
+#include <vector>
 
 namespace cgixx {
 
@@ -101,6 +102,8 @@ public:
 	cgi();
 	~cgi();
 
+	typedef std::vector< std::string > identifierlist;
+
 	/// Get the cgixx library version string.
 	const std::string& libver();
 
@@ -113,11 +116,20 @@ public:
 	/// Get next available value of a variable.
 	bool get(const std::string& id, std::string& value);
 
+	/// Get list of variable identifiers.
+	void getvariablelist(identifierlist& idlist) const;
+
 	/// Get count of a cookie.
 	unsigned countcookie(const std::string& id) const;
 
+	/// Check if a cookie exists.
+	bool cookieexists(const std::string& id);
+
 	/// Get next available value of a cookie.
 	bool getcookie(const std::string& id, std::string& value);
+
+	/// Get list of cookie identifiers.
+	void getcookielist(identifierlist& idlist) const;
 
 	/// Get the specified header.
 	bool getheader(headers hid, std::string& copy) const;
