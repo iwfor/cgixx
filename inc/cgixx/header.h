@@ -84,6 +84,9 @@ public:
 	/// Set a generic header.
 	void setheader(const std::string& id, const std::string& value);
 
+	/// Create a redirect header
+	void redirect(const std::string& location);
+
 	/// Add a cookie object to the header.
 	void addcookie(cookie& value);
 

@@ -5,6 +5,7 @@ Version 0.70
 ------------
 - Added "make install" to src/.
 - Added cgixx.h which includes all cgixx headers.
+- Added redirect() method to header class.
 
 Version 0.60-beta
 -----------------

@@ -307,6 +307,20 @@ void header::setheader(const std::string& id, const std::string& value)
 
 
 /**
+ * Create a redirect header.
+ *
+ * @param	location	Path or URL to redirect to.
+ * @return	nothing
+ *
+ */
+void header::redirect(const std::string& location)
+{
+	setstatus(302);
+	imp->location = location;
+}
+
+
+/**
  * Add a cookie to the header.
  *
  * @param	value	Reference to completed cookie.
