@@ -5,6 +5,8 @@ Version 1.06
 ------------
 - Optimized reading from STDIN to read a block of data into a buffer, instead
   of reading one character at a time.
+- Now throwing an exception when too much or too little data is received on the
+  stream.
 - Upgraded to newer version of cxxtools configuration scripts, fixing
   incompatability with certain versions of Perl on Linux.
 - Updated configure.pl to support the --bundle option, cleaned up messages, and
