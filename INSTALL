@@ -11,6 +11,11 @@ UNIX
 # Make sure GCC 3.x is set up as your compiler.
 cd src/
 make
+(as root)
+make install
+
+You may want to edit the make file to change the installation path from the
+default /usr/local to where you keep your libraries and headers.
 
 WINDOWS
 -------
