@@ -25,6 +25,8 @@ struct cgi_impl {
 
 	std::string cgi2text(const std::string& cgistr);
 
+	static unsigned char hex2dec(char c);
+
 	// Map of parameters.
 	ParameterList vars;
 

@@ -90,6 +90,19 @@ void cgi_impl::parseparams(const std::string& paramlist)
 	}
 	else
 	{
+		// identifiers are delimited by = and values are delimited by
+		// & or \0.
+		std::string id, val;
+		std::size_t pos = 0, newpos;
+		while ((pos != std::string::npos) &&
+			((newpos = paramlist.find('=', pos)) != std::string::npos))
+		{
+			id = cgi2text(paramlist.substr(newpos, pos-newpos));
+			pos = newpos + 1;	// skip '='
+			newpos = paramlist.find('&', pos);
+			val = cgi2text(paramlist.substr(newpos, pos-newpos));
+			pos = newpos + 1;	// skip '&'
+		}
 	}
 }
 
@@ -100,10 +113,47 @@ std::string cgi_impl::cgi2text(const std::string& cgistr)
 
 	for (; it != end; ++it)
 	{
-		// TODO
+		if (*it == '%')
+		{
+			++it;
+			if (it == end)
+				break;
+			unsigned char temp = hex2dec(*it) * 16;
+			++it;
+			if (it == end)
+				break;
+			temp+= hex2dec(*it);
+			textstr+= temp;
+		}
+		else
+		{
+			textstr+= *it;
+		}
 	}
 
 	return textstr;
+}
+
+unsigned char cgi_impl::hex2dec(char c)
+{
+	switch (c) {
+	case 'A':
+	case 'B':
+	case 'C':
+	case 'D':
+	case 'E':
+	case 'F':
+		return c - 'A';
+	case 'a':
+	case 'b':
+	case 'c':
+	case 'd':
+	case 'e':
+	case 'f':
+		return c - 'a';
+	default:
+		return c - '0';
+	}
 }
 
 } // end namespace cgixx
