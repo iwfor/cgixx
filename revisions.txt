@@ -4,6 +4,7 @@ cgixx C++ CGI Class Library Revision
 Version 1.01
 ------------
 - Fixed error in configure.pl help.
+- cgixx::header.getheader() now includes a Date header.
 
 Version 1.00
 ------------

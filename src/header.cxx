@@ -137,6 +137,16 @@ std::string header::get() const
 		hdr+= "\r\n";
 	}
 
+	std::time_t timer = std::time(NULL);
+	struct std::tm* ts = std::gmtime(&timer);
+	char buf[72];
+	std::sprintf(buf, "%s, %02u-%s-%04u %02u:%02u:%02u GMT",
+		weekday[ts->tm_wday], ts->tm_mday, month[ts->tm_mon],
+		ts->tm_year + 1900, ts->tm_hour, ts->tm_min, ts->tm_sec);
+	hdr+= "Date: ";
+	hdr+= buf;
+	hdr+= "\r\n";
+
 	if (!imp->expire.empty())
 	{
 		hdr+= "Expires: ";
