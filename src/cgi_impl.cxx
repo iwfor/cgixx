@@ -6,10 +6,11 @@
  */
 
 #include "cgi_impl.h"
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
 #include <memory>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
 
 namespace cgixx {
 
@@ -106,7 +107,7 @@ void cgi_impl::parseparams(const std::string& paramlist)
 	}
 }
 
-std::string cgi_impl::cgi2text(const std::string& cgistr)
+static std::string cgi_impl::cgi2text(const std::string& cgistr)
 {
 	std::string textstr;
 	std::string::const_iterator it(cgistr.begin()), end(cgistr.end());
@@ -126,15 +127,42 @@ std::string cgi_impl::cgi2text(const std::string& cgistr)
 			textstr+= temp;
 		}
 		else
-		{
 			textstr+= *it;
-		}
 	}
 
 	return textstr;
 }
 
-unsigned char cgi_impl::hex2dec(char c)
+static std::string cgi_impl::text2cgi(const std::string& textstr)
+{
+	std::string cgistr;
+	std::string::const_iterator it(textstr.begin()), end(textstr.end());
+
+	for (; it != end; ++it)
+	{
+		if (std::isalnum(*it))
+			cgistr+= *it;
+		else
+		{
+			cgistr+= '%';
+			cgistr+= dec2hex(*it / 16);
+			cgistr+= dec2hex(*it % 16);
+		}
+	}
+	return cgistr;
+}
+
+static unsigned char cgi_impl::dec2hex(char c)
+{
+	if (c < 10)
+		return c + '0';
+	else if (c < 16)
+		return c - 10 + 'A';
+	else
+		return '0';
+}
+
+static unsigned char cgi_impl::hex2dec(char c)
 {
 	switch (c) {
 	case 'A':
@@ -143,14 +171,14 @@ unsigned char cgi_impl::hex2dec(char c)
 	case 'D':
 	case 'E':
 	case 'F':
-		return c - 'A';
+		return c - 'A' + 10;
 	case 'a':
 	case 'b':
 	case 'c':
 	case 'd':
 	case 'e':
 	case 'f':
-		return c - 'a';
+		return c - 'a' + 10;
 	default:
 		return c - '0';
 	}

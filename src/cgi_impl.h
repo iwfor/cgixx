@@ -23,9 +23,11 @@ struct cgi_impl {
 	// Store an environment variable in the specified string.
 	void getenvvar(std::string& dest, const char* name, const char* defval=0);
 
-	std::string cgi2text(const std::string& cgistr);
+	static std::string cgi2text(const std::string& cgistr);
+	static std::string text2cgi(const std::string& textstr);
 
 	static unsigned char hex2dec(char c);
+	static unsigned char dec2hex(char c);
 
 	// Map of parameters.
 	ParameterList vars;

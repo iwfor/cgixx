@@ -119,6 +119,10 @@ SOURCE=..\inc\cgixx\cookie.h
 
 SOURCE=..\inc\cgixx\header.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\src\timedefs.inl
+# End Source File
 # End Group
 # End Target
 # End Project
