@@ -6,7 +6,7 @@
  */
 
 /*
- * Copyright (C) 2002-2003 Isaac W. Foraker (isaac@tazthecat.net)
+ * Copyright (C) 2002-2004 Isaac W. Foraker (isaac@tazthecat.net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -403,7 +403,11 @@ bool header::setexpire(const std::string& expire)
 			imp->expire = expire;
 			return true;
 		}
-		std::time_t timer = std::time(NULL) + (isneg ? -duration : duration);
+		std::time_t timer = std::time(NULL);
+        if (isneg)
+            timer-= duration;
+        else
+            timer+= duration;
 		struct std::tm* ts = std::gmtime(&timer);
 		char buf[72];
 		std::sprintf(buf, "%s, %02u-%s-%04u %02u:%02u:%02u GMT",
