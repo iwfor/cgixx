@@ -133,14 +133,16 @@ void cgi_impl::parsecookies(const std::string& cookielist)
 			++newpos;
 			while (std::isspace(cookielist[newpos]))
 				++newpos;
-			pos = newpos;	// skip '&'
+			pos = newpos;	// skip ':'
 		}
-		vars[id].push(val);
+		cookies[id].push(val);
 	}
 }
 
 void cgi_impl::parseparams(const std::string& paramlist)
 {
+	if (paramlist.empty())
+		return;
 	if (paramlist.find('=') == std::string::npos)
 	{
 		// ISINDEX
