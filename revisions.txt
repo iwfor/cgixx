@@ -4,6 +4,8 @@ cgixx C++ CGI Class Library Revision
 Version 1.05
 ------------
 - Updated copyright statements.
+- Cleaned up compile time warnings.
+- Fixed bug in handling negative time values.
 
 Version 1.04
 ------------
