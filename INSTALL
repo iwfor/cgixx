@@ -1,4 +1,4 @@
-LibTPT Class Library Template Processor
+cgixx C++ CGI Class Library
 Copyright (C) 2002 Isaac W. Foraker (isaac@tazthecat.net)
 All Rights Reserved
 
@@ -20,6 +20,7 @@ default /usr/local to where you keep your libraries and headers.
 WINDOWS
 -------
 # Make sure you have STLPort 4.5.x+ installed.
+# Note: Windows is not officially supported, so good luck!
 Load w32/cgixx.dsw
 Build cgixx_static.
 
