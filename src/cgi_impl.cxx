@@ -206,6 +206,8 @@ std::string cgi2text(const std::string& cgistr)
 			temp+= hex2dec(*it);
 			textstr+= temp;
 		}
+		else if (*it == '+')
+			textstr+= ' ';
 		else
 			textstr+= *it;
 	}
