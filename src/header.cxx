@@ -351,9 +351,10 @@ void header::addcookie(cookie& value)
 bool header::setexpire(const std::string& expire)
 {
 	// First, attempt to parse expire.
-	unsigned pos = 0;
+	register unsigned pos = 0;
+	bool isneg(false);
 
-	if (expire[pos] == '-')
+	if (expire[0] == '-')
 		++pos;
 	if (std::isdigit(expire[pos]))
 	{
