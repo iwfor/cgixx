@@ -66,7 +66,8 @@ my $includes	= "--include '${cwd}${dirsep}inc' ";
 my $libraries	= "--slinkwith '${cwd}${dirsep}src,$libname' ";
 
 my @extra_compile = (
-	"${cwd}${dirsep}src"
+	"${cwd}${dirsep}src",
+	"${cwd}/test"
 );
 
 #####
@@ -115,6 +116,7 @@ if ($clo{'developer'}) {
 print "Generating cgixx Makefiles ";
 generate_toplevel_makefile();
 generate_library_makefile();
+generate_tests_makefile();
 print "\n";
 print "+-------------------------------------------------------------+\n";
 print "| Okay, looks like you are ready to go.  To build, type:      |\n";
@@ -156,3 +158,14 @@ sub generate_library_makefile {
 	print ".";
 	chdir $cwd;
 }
+
+sub generate_tests_makefile {
+	unless (chdir("$cwd/test")) {
+		print STDERR "\n$0: can't chdir $cwd/test: $!\n";
+		exit 1;
+	}
+	system("$^X $mkmf $mkmf_flags $includes $libraries --quiet --many-exec *.cxx");
+	print ".";
+	chdir $cwd;
+}
+

@@ -128,15 +128,6 @@ std::string header::get() const
 		hdr+= "\r\n";
 	}
 
-	if (imp->content_length)
-	{
-		char buf[32];
-		std::sprintf(buf, "%u", imp->content_length);
-		hdr+= "Content-length: ";
-		hdr+= buf;
-		hdr+= "\r\n";
-	}
-
 	std::time_t timer = std::time(NULL);
 	struct std::tm* ts = std::gmtime(&timer);
 	char buf[72];
@@ -151,6 +142,15 @@ std::string header::get() const
 	{
 		hdr+= "Expires: ";
 		hdr+= imp->expire;
+		hdr+= "\r\n";
+	}
+
+	if (imp->content_length)
+	{
+		char buf[32];
+		std::sprintf(buf, "%u", imp->content_length);
+		hdr+= "Content-length: ";
+		hdr+= buf;
 		hdr+= "\r\n";
 	}
 
