@@ -74,7 +74,7 @@ cgi_impl::cgi_impl()
 		if (clength)
 		{
 			char c;
-			temp.clear();
+			temp.erase();
 			while (clength > 0)
 			{
 				std::cin >> c;
@@ -109,7 +109,7 @@ void cgi_impl::getenvvar(std::string& dest, const char* name, const char* defval
 	else if (defval)
 		dest = defval;
 	else
-		dest.clear();
+		dest.erase();
 }
 
 

@@ -37,6 +37,8 @@
  *
  */
 
+#include "compat.h"
+
 #include "timedefs.inl"
 #include <cgixx/header.h>
 #include <cgixx/cookie.h>
@@ -327,7 +329,7 @@ void header::redirect(const std::string& location)
 {
 	setstatus(302);
 	imp->location = location;
-	imp->content_type.clear();
+	imp->content_type.erase();
 }
 
 

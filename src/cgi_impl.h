@@ -40,6 +40,8 @@
 #ifndef __cgixx_cgi_impl_h
 #define __cgixx_cgi_impl_h
 
+#include "compat.h"
+
 #include <cgixx/cgi.h>
 #include <string>
 #include <map>

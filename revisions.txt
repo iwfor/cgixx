@@ -1,7 +1,14 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 1.04
+------------
+- Stopped using std::string::clear and std::string::iterator for GCC 2.95.4
+  support.
+- Added compat.h header for extra support for GCC 2.95.x and MSVC 6.0.
+
 Version 1.03
+------------
 - Added function makesafestring to convert a string to user percent hex
   notation for non-alphanumeric characters.
 

@@ -44,7 +44,7 @@
 
 namespace cgixx {
 
-static const std::string cgixx_version("1.03");
+static const std::string cgixx_version("1.04");
 
 /**
  * Construct an instance of cgi.
@@ -304,7 +304,7 @@ bool cgi::getheader(headers hid, std::string& copy) const
 		imp->getenvvar(copy, "HTTP_COOKIE");
 		break;
 	default:
-		copy.clear();
+		copy.erase();
 		return true;
 	}
 	return false;
@@ -332,18 +332,18 @@ methods cgi::getmethod() const
  */
 std::string& makesafestring(const std::string& instr, std::string& outstr)
 {
-	outstr.clear();
-	std::string::const_iterator it(instr.begin()), end(instr.end());
-	char buf[16];
-	for (; it != end; ++it)
+	outstr.erase();
+	std::size_t i, end = instr.length();
+	char buf[17];
+	for (i = 0; i != end; ++i)
 	{
-		if (std::isalnum(*it))
-			outstr+= *it;
-		else if (*it == ' ')
+		unsigned char c = instr[i];
+		if (std::isalnum(c) || c == '_')
+			outstr+= c;
+		else if (c == ' ')
 			outstr+= '+';
 		else
 		{
-			unsigned char c = *it;
 			std::sprintf(buf, "%02X", c);
 			outstr+= '%';
 			outstr+= buf;
