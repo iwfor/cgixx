@@ -1,6 +1,10 @@
 cgixx C++ CGI Class Library Revision
 ------------------------------------
 
+Version 0.81-beta
+-----------------
+- Fixed header::redirect() method.
+
 Version 0.80-beta
 -----------------
 - Fixed a serious bug which prevented POST, PUT, and HEAD methods from working.

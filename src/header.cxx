@@ -58,7 +58,7 @@ struct header_impl
 
 	std::vector< std::string > extra_headers;
 
-	header_impl() : httpver("HTTP/1.1"), content_length(0),
+	header_impl() : content_length(0),
 		content_type("text/html") {}
 };
 
@@ -100,21 +100,21 @@ std::string header::get() const
 {
 	std::string hdr;
 
+	if (!imp->httpver.empty())
+	{
+		hdr+= imp->httpver;
+		hdr+= "\r\n";
+	}
+
 	if (!imp->status.empty())
 	{
-		// Add status (e.g. "HTTP/1.1 302 Redirect")
-		hdr = imp->httpver;
-		hdr+= ' ';
+		hdr+= "Status: ";
 		hdr+= imp->status;
 		hdr+= "\r\n";
 	}
 
 	if (!imp->location.empty())
 	{
-//		hdr+= "URI: ";
-//		hdr+= imp->location;
-//		hdr+= "; vary=*\r\n";
-
 		hdr+= "Location: ";
 		hdr+= imp->location;
 		hdr+= "\r\n";
