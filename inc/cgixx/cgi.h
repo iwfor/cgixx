@@ -51,8 +51,10 @@ namespace cgixx {
  */
 class cgiexception : public std::runtime_error {
 	public:
+        /// Wrap the standard exception with a string explanation
 		cgiexception(const std::string& what_arg) :
 			std::runtime_error(what_arg) {}
+        /// Wrap the standard exception
 		cgiexception() :
 			std::runtime_error(std::string()) {}
 };

@@ -66,7 +66,6 @@ struct cookie_impl {
  * @param	initcgi		Reference to cgi instance.
  * @param	name		Name of this cookie.
  * @param	value		Value of this cookie.
- *
  */
 cookie::cookie(const cgi& initcgi, const std::string& name,
 			   const std::string& value)
@@ -85,7 +84,6 @@ cookie::cookie(const cgi& initcgi, const std::string& name,
  *
  * @param	name		Name of this cookie.
  * @param	value		Value of this cookie.
- *
  */
 cookie::cookie(const std::string& name, const std::string& value)
 	: imp(new cookie_impl)
@@ -100,7 +98,6 @@ cookie::cookie(const std::string& name, const std::string& value)
  * Construct a copy of another cookie.
  *
  * @param	copy	Reference to cookie to copy.
- *
  */
 cookie::cookie(const cookie& copy)
 	: imp(new cookie_impl)
@@ -116,7 +113,6 @@ cookie::cookie(const cookie& copy)
 
 /**
  * Destroy *this instance of cookie.
- *
  */
 cookie::~cookie()
 {
@@ -129,7 +125,6 @@ cookie::~cookie()
  *
  * @param	value		Value for this cookie.
  * @return	nothing
- *
  */
 void cookie::setvalue(const std::string& value)
 {
@@ -142,7 +137,6 @@ void cookie::setvalue(const std::string& value)
  *
  * @param	domain		Domain for this cookie.
  * @return	nothing
- *
  */
 void cookie::setdomain(const std::string& domain)
 {
@@ -155,7 +149,6 @@ void cookie::setdomain(const std::string& domain)
  *
  * @param	path		Path for this cookie.
  * @return	nothing
- *
  */
 void cookie::setpath(const std::string& path)
 {
@@ -169,7 +162,6 @@ void cookie::setpath(const std::string& path)
  *
  * @param	requiressl	When true, require ssl.
  * @return	nothing
- *
  */
 void cookie::setsecure(bool requiressl)
 {
@@ -189,7 +181,6 @@ void cookie::setsecure(bool requiressl)
  *						D=day, W=week, m=month, Y=year.
  * @return	false if the offset was successfully parsed into a date;
  * @return	true if the the expire string was accepted as is.
- *
  */
 bool cookie::setexpire(const std::string& expire)
 {
@@ -250,9 +241,7 @@ bool cookie::setexpire(const std::string& expire)
 /**
  * Get the name of this cookie.
  *
- * @param	none
  * @return	The name of this cookie.
- *
  */
 const std::string& cookie::getname() const
 {
@@ -263,9 +252,7 @@ const std::string& cookie::getname() const
 /**
  * Get the value of this cookie.
  *
- * @param	none
  * @return	The value of this cookie.
- *
  */
 const std::string& cookie::getvalue() const
 {
@@ -277,9 +264,7 @@ const std::string& cookie::getvalue() const
  *
  * Set-Cookie: NAME=VALUE; expire=DATE; path=PATH; domain=DOMAIN_NAME; secure
  *
- * @param	none
  * @return	The formatted cookie header.
- *
  */
 std::string cookie::get()
 {

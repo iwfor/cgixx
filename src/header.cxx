@@ -66,7 +66,6 @@ struct header_impl
 
 /**
  * Construct a header object.
- *
  */
 header::header()
 {
@@ -75,7 +74,6 @@ header::header()
 
 /**
  * Destroy *this header object.
- *
  */
 header::~header()
 {
@@ -94,9 +92,7 @@ header::~header()
  * or expand on these headers unless a specific status code has been
  * specified (e.g. through redirect method).
  *
- * @param	none
  * @return	The header string.
- *
  */
 std::string header::get() const
 {
@@ -179,7 +175,6 @@ std::string header::get() const
  *							description is specified, a default is
  *							supplied based on the status code.
  * @return	nothing.
- *
  */
 void header::setstatus(unsigned status, const std::string& description)
 {
@@ -264,7 +259,6 @@ void header::setstatus(unsigned status, const std::string& description)
  *
  * @param	length		The content length.
  * @return	nothing
- *
  */
 void header::setlength(unsigned length)
 {
@@ -279,7 +273,6 @@ void header::setlength(unsigned length)
  *
  * @param	contenttype		The content mime type (e.g. image/jpg).
  * @return	nothing
- *
  */
 void header::settype(const std::string& contenttype)
 {
@@ -293,7 +286,6 @@ void header::settype(const std::string& contenttype)
  *
  * @param	httpversion		The HTTP version string (e.g. HTTP/1.1).
  * @return	nothing
- *
  */
 void header::override(const std::string& httpversion)
 {
@@ -307,7 +299,6 @@ void header::override(const std::string& httpversion)
  * @param	id		Identifier for header.
  * @param	value	Value of header.
  * @return	nothing
- *
  */
 void header::setheader(const std::string& id, const std::string& value)
 {
@@ -323,7 +314,6 @@ void header::setheader(const std::string& id, const std::string& value)
  *
  * @param	location	Path or URL to redirect to.
  * @return	nothing
- *
  */
 void header::redirect(const std::string& location)
 {
@@ -338,7 +328,6 @@ void header::redirect(const std::string& location)
  *
  * @param	value	Reference to completed cookie.
  * @return	nothing
- *
  */
 void header::addcookie(cookie& value)
 {
@@ -358,7 +347,6 @@ void header::addcookie(cookie& value)
  *						D=day, W=week, m=month, Y=year.
  * @return	false if the offset was successfully parsed into a date;
  * @return	true if the the expire string was accepted as is.
- *
  */
 bool header::setexpire(const std::string& expire)
 {
