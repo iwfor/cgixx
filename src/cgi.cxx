@@ -339,6 +339,8 @@ std::string& makesafestring(const std::string& instr, std::string& outstr)
 	{
 		if (std::isalnum(*it))
 			outstr+= *it;
+		else if (*it == ' ')
+			outstr+= '+';
 		else
 		{
 			unsigned char c = *it;
