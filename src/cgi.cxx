@@ -77,257 +77,6 @@ const std::string& cgi::libver()
 
 
 /**
- * Get the CGI method requested by the web client.
- *
- * @param	none
- * @return	Member of the methods enumeration.
- *
- */
-methods cgi::method() const
-{
-	return imp->method;
-}
-
-
-/**
- * Get the server's hostname, DNS alias, or IP address as it would
- * appear in self-referencing URLs.
- *
- * @param	none
- * @return	Name of web server.
- *
- */
-const std::string& cgi::server() const
-{
-	return imp->server_name;
-}
-
-
-/**
- * Get the port number to which the request was sent.
- *
- * @param	none
- * @return	The web server port number (typically 80).
- *
- */
-unsigned cgi::serverport() const
-{
-	return imp->server_port;
-}
-
-
-/**
- * Get the name and revision of the information protcol this request
- * came in with. Format: protocol/revision
- *
- * @param	none
- * @return	Server protocol.
- *
- */
-const std::string& cgi::serverprotocol() const
-{
-	return imp->server_protocol;
-}
-
-
-/**
- * Get the revision of the CGI specification to which this server
- * complies. Format: CGI/revision
- *
- * @param	none
- * @return	Web server CGI version.
- *
- */
-const std::string& cgi::gatewayinterface() const
-{
-	return imp->gateway_interface;
-}
-
-
-/**
- * Get the name and version of the web server software.  Format:
- * name/version
- *
- * @param	none
- * @return	Name of the web server software.
- *
- */
-const std::string& cgi::serversoftware() const
-{
-	return imp->server_software;
-}
-
-
-/**
- * Get the extra path information, as given by the client. In other
- * words, scripts can be accessed by their virtual pathname, followed by
- * extra information at the end of this path.
- *
- * @param	none
- * @return	Extra URL path information.
- *
- */
-const std::string& cgi::pathinfo() const
-{
-	return imp->path_info;
-}
-
-
-/**
- * Get the server translated version of pathinfo(), which takes the path
- * and does any virtual-to-physical mapping to it.
- *
- * @param	none
- * @return	Physical path to CGI script.
- *
- */
-const std::string& cgi::realpath() const
-{
-	return imp->path_translated;
-}
-
-
-/**
- * Get the virtual path to the script being executed, used for
- * self-referencing URLs.
- *
- * @param	none
- * @return	Virtual path to this CGI script.
- *
- */
-const std::string& cgi::script() const
-{
-	return imp->script_name;
-}
-
-
-/**
- * Get the hostname making the request. If the server does not have this
- * information, it should set remoteaddr() and leave this unset.
- *
- * @param	none
- * @return	The remote host name, if available.
- *
- */
-const std::string& cgi::remotehost() const
-{
-	return imp->remote_host;
-}
-
-
-/**
- * Get the IP address of the remote host making the request.
- *
- * @param	none
- * @return	The IP address of the web client.
- *
- */
-const std::string& cgi::remoteaddr() const
-{
-	return imp->remote_addr;
-}
-
-
-/**
- * If the server supports user authentication, and the script is
- * protected, this is the protocol-specific authentication method used
- * to validate the user.
- *
- * @param	none
- * @return	The authorization method, if available.
- *
- */
-const std::string& cgi::authtype() const
-{
-	return imp->auth_type;
-}
-
-
-/**
- * If the server supports user authentication, and the script is
- * protected, this is the username they have authenticated as.
- *
- * @param	none
- * @return	Authenticated username, if available.
- *
- */
-const std::string& cgi::remoteusername() const
-{
-	return imp->remote_user;
-}
-
-
-/**
- * If the HTTP server supports RFC 931 identification, then this
- * variable will be set to the remote user name retrieved from the
- * server. Usage of this variable should be limited to logging only.
- *
- * @param	none
- * @return	The remote identity, if available.
- *
- */
-const std::string& cgi::remoteidentity() const
-{
-	return imp->remote_ident;
-}
-
-
-/**
- * For queries which have attached information, such as HTTP POST and
- * PUT, get the content type of the data.
- *
- * @param	none
- * @return	The content type, if available.
- *
- */
-const std::string& cgi::contenttype() const
-{
-	return imp->content_type;
-}
-
-
-/**
- * The length of the content as given by the client in a POST or PUT.
- *
- * @param	none
- * @return	The content length, if available.
- *
- */
-unsigned long cgi::contentlength() const
-{
-	return imp->content_length;
-}
-
-
-/**
- * Get the MIME types which the client will accept, as given by HTTP
- * headers.  Each item in this list should be separated by commas as per
- * the HTTP spec.  Format: type/subtype, type/subtype
- *
- * @param	none
- * @return	The mime types accepted by the client.
- *
- */
-const std::string& cgi::httpaccept() const
-{
-	return imp->http_accept;
-}
-
-
-/**
- * The browser the client is using to send the request. General format:
- * software/version library/version.
- *
- * @param	none
- * @return The name of the user agent.
- *
- */
-const std::string& cgi::agent() const
-{
-	return imp->http_user_agent;
-}
-
-/**
  * Get the count of values for the CGI variable with the specified id.
  * This count is decremented with each call to get.
  *
@@ -408,5 +157,78 @@ bool cgi::getcookie(const std::string& id, std::string& value)
 	return false;
 }
 
+
+/**
+ * Copy the value of the specified variable into the specified string.
+ * If an invalud header is specified, getheader returns true.
+ *
+ * @param	hid		The header identifier from the headers enumeration.
+ * @param	copy	Reference to string to receive value of header.
+ * @return	false on success;
+ * @return	true if an invalid header is specified.
+ *
+ */
+bool cgi::getheader(headers hid, std::string& copy) const
+{
+	switch (hid) {
+	case header_request_method:
+		imp->getenvvar(copy, "REQUEST_METHOD");
+	case header_query_string:
+		imp->getenvvar(copy, "QUERY_STRING");
+	case header_server_software:
+		imp->getenvvar(copy, "SERVER_SOFTWARE");
+	case header_server_name:
+		imp->getenvvar(copy, "SERVER_NAME");
+	case header_gateway_interface:
+		imp->getenvvar(copy, "GATEWAY_INTERFACE");
+	case header_server_protocol:
+		imp->getenvvar(copy, "SERVER_PROTOCOL");
+	case header_server_port:
+		imp->getenvvar(copy, "SERVER_PORT");
+	case header_path_info:
+		imp->getenvvar(copy, "PATH_INFO");
+	case header_path_translated:
+		imp->getenvvar(copy, "PATH_TRANSLATED");
+	case header_script_name:
+		imp->getenvvar(copy, "SCRIPT_NAME");
+	case header_remote_addr:
+		imp->getenvvar(copy, "REMOTE_ADDR");
+	case header_remote_host:
+		imp->getenvvar(copy, "REMOTE_HOST");
+	case header_auth_type:
+		imp->getenvvar(copy, "AUTH_TYPE");
+	case header_remote_user:
+		imp->getenvvar(copy, "REMOTE_USER");
+	case header_remote_ident:
+		imp->getenvvar(copy, "REMOTE_IDENT");
+	case header_content_type:
+		imp->getenvvar(copy, "CONTENT_TYPE");
+	case header_content_length:
+		imp->getenvvar(copy, "CONTENT_LENGTH");
+	case header_http_accept:
+		imp->getenvvar(copy, "HTTP_ACCEPT");
+	case header_http_user_agent:
+		imp->getenvvar(copy, "HTTP_USER_AGENT");
+	case header_http_cookie:
+		imp->getenvvar(copy, "HTTP_COOKIE");
+	default:
+		copy.clear();
+		return true;
+	}
+	return false;
+}
+
+
+/**
+ * Get the method of the request in the form of an enumerated id.
+ *
+ * @param	none
+ * @return	The method id, which must be a member of the methods enum.
+ *
+ */
+methods cgi::getmethod() const
+{
+	return imp->method;
+}
 
 } // end namespace cgixx

@@ -44,6 +44,10 @@
 
 namespace cgixx {
 
+/**
+ * The methods enumeration lists all CGI methods supported by cgixx.
+ *
+ */
 enum methods {
 	method_get = 0,
 	method_post,
@@ -51,14 +55,43 @@ enum methods {
 	method_put
 };
 
-// Forward declaration
+/**
+ * The headers enumeration defines headers that can be returned with
+ * a call to getheader().
+ *
+ */
+enum headers {
+	header_request_method,
+	header_query_string,
+	header_server_software,
+	header_server_name,
+	header_gateway_interface,
+	header_server_protocol,
+	header_server_port,
+	header_path_info,
+	header_path_translated,
+	header_script_name,
+	header_remote_addr,
+	header_remote_host,
+	header_auth_type,
+	header_remote_user,
+	header_remote_ident,
+	header_content_type,
+	header_content_length,
+	header_http_accept,
+	header_http_user_agent,
+	header_http_cookie
+};
+
+/// Forward declaration, for intenal use
 struct cgi_impl;
-class cookie;
+
 
 /**
  * The cgi class is used to process CGI requests.  cgi will process all
  * server set environment variables and the standard input when
- * applicable to extract CGI variables and cookies.
+ * applicable to extract CGI variables and cookies, and convert values
+ * to text.
  *
  * @author	Isaac W. Foraker
  *
@@ -71,11 +104,11 @@ public:
 	/// Get the cgixx library version string.
 	const std::string& libver();
 
-	/// Get CGI method requested.
-	methods method() const;
-
 	/// Get count of a variable.
 	unsigned count(const std::string& id) const;
+
+	/// Check if a variable exists.
+	bool exists(const std::string& id);
 
 	/// Get next available value of a variable.
 	bool get(const std::string& id, std::string& value);
@@ -86,57 +119,11 @@ public:
 	/// Get next available value of a cookie.
 	bool getcookie(const std::string& id, std::string& value);
 
-	/// Get web server name.
-	const std::string& server() const;
+	/// Get the specified header.
+	bool getheader(headers hid, std::string& copy) const;
 
-	/// Get web server port.
-	unsigned serverport() const;
-
-	/// Get web server protocol.
-	const std::string& serverprotocol() const;
-
-	/// Get the CGI version supported by the web server.
-	const std::string& gatewayinterface() const;
-
-	/// Get the name of the server software.
-	const std::string& serversoftware() const;
-
-	/// Get extra path information.
-	const std::string& pathinfo() const;
-
-	/// Get CGI script real path.
-	const std::string& realpath() const;
-
-	/// Get virtual path to this script.
-	const std::string& script() const;
-
-	/// Get the remote host.
-	const std::string& remotehost() const;
-
-	/// Get the remote address.
-	const std::string& remoteaddr() const;
-
-	/// Get the authorization type.
-	const std::string& authtype() const;
-
-	/// Get the username.
-	const std::string& remoteusername() const;
-
-	/// Get the remote identity.
-	const std::string& remoteidentity() const;
-
-	/// Get the content type.
-	const std::string& contenttype() const;
-
-	/// Get the content length.
-	unsigned long contentlength() const;
-
-	/// Get the mime types accepted by the client.
-	const std::string& httpaccept() const;
-
-	/// Get user agent (i.e. web browser software)
-	const std::string& agent() const;
-
+	/// Get the request method.
+	methods getmethod() const;
 
 private:
 	// There is no copy constructor.

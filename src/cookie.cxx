@@ -74,8 +74,8 @@ cookie::cookie(const cgi& initcgi, const std::string& name,
 {
 	imp->name = name;
 	imp->value = value;
-	imp->domain = initcgi.server();
-	imp->path = initcgi.script();
+	initcgi.getheader(header_server_name, imp->domain);
+	initcgi.getheader(header_script_name, imp->path);
 	imp->secure = false;
 }
 
