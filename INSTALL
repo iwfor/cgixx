@@ -27,3 +27,6 @@ LIBRARY
 -------
 The cgixx library file lives in lib/.
 
+TESTING
+-------
+There are no automated tests at this time.

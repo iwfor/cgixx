@@ -53,7 +53,7 @@ namespace cgixx {
 cgi_impl::cgi_impl()
 {
 	std::string temp;
-	getenvvar(temp, "temp", "GET");
+	getenvvar(temp, "REQUEST_METHOD", "GET");
 	if (temp== "GET")
 		method = method_get;
 	else if (temp == "POST")
@@ -73,11 +73,17 @@ cgi_impl::cgi_impl()
 		// Parse STDIN
 		if (clength)
 		{
-			// TODO: Is this legal in the standard?
-			temp.resize(clength);
-			std::cin.readsome(&temp[0], clength);
+			char c;
+			temp.clear();
+			while (clength > 0)
+			{
+				std::cin >> c;
+				temp+= c;
+				--clength;
+			}
 			parseparams(temp);
 		}
+		// else no parameters
 	}
 	else	// GET, HEAD, PUT
 	{
