@@ -14,17 +14,17 @@ libcgixx.a: ${OBJECTS}
 
 install: libcgixx.a
 	if test ! -d ${BASEDIR} ; then \
-		mkdir ${BASEDIR} \
+		mkdir ${BASEDIR} ; \
 	fi
 	if test ! -d ${BASEDIR}/lib ; then \
-		mkdir ${BASEDIR}/lib \
+		mkdir ${BASEDIR}/lib ; \
 	fi
 	cp -p libcgixx.a ${BASEDIR}/lib/
 	if test ! -d ${BASEDIR}/include ; then \
-		mkdir ${BASEDIR}/include \
+		mkdir ${BASEDIR}/include ; \
 	fi
 	if test ! -d ${BASEDIR}/include/cgixx ; then \
-		mkdir ${BASEDIR}/include/cgixx
+		mkdir ${BASEDIR}/include/cgixx ; \
 	fi
 	cp -p ../inc/cgixx/*.h ${BASEDIR}/include/cgixx/
 
