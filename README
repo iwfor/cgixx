@@ -4,9 +4,9 @@ All Rights Reserved
 
 See LICENSE for more information
 
-The cgixx library is a C++ Class Library for handling CGI requests and
-HTTP responses.  The library is commented with Doxygen.  The reference
-pages are available in doc/html/.
+The cgixx (pronounced see-jiks) library is a C++ Class Library for handling CGI
+requests and HTTP responses.  The library is commented with Doxygen.  The
+reference pages are available in doc/html/.
 
 For up to date news and documentation on the cgixx project, go to
 http://tazthecat.net/~isaac/cgixx.
