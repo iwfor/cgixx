@@ -1,0 +1,24 @@
+LibTPT Class Library Template Processor
+Copyright (C) 2002 Isaac W. Foraker (isaac@tazthecat.net)
+All Rights Reserved
+
+See LICENSE file for licensing information.
+
+See http://tazthecat.net/~isaac/cgixx/ for documentation.
+
+UNIX
+----
+# Make sure GCC 3.x is set up as your compiler.
+cd src/
+make
+
+WINDOWS
+-------
+# Make sure you have STLPort 4.5.x+ installed.
+Load w32/cgixx.dsw
+Build cgixx_static.
+
+LIBRARY
+-------
+The cgixx library file lives in lib/.
+
