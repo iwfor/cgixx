@@ -1,14 +1,19 @@
 INCLUDE	=	-I ../inc
+CXXFLAGS+=	${INCLUDE}
 OBJECTS	=	cgi.o \
 			cgi_impl.o \
 			cookie.o \
 			header.o
 
-default: libcgixx
+default: libcgixx.a
 
-libcgixx: ${OBJECTS}
-	${AR} ${ARFLAGS} libcgixx.a ${OBJECTS}
-	cp -p libcgixx.a ../lib/
+libcgixx.a: ${OBJECTS}
+	${AR} ${ARFLAGS} $@ ${OBJECTS}
+	cp -p $@ ../lib/
 
 clean:
 	rm -f core *.core ${OBJECTS} libcgixx.a
+
+.SUFFIXES: .cxx
+.cxx.o:
+	${CXX} ${CXXFLAGS} -o $@ -c $<

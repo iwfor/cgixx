@@ -142,7 +142,7 @@ private:
 	// There is no copy constructor.
 	cgi(const cgi&);
 	// There is not copy operator.
-	operator=(const cgi&);
+	cgi& operator=(const cgi&);
 
 	cgi_impl* imp;
 };
