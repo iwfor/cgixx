@@ -234,7 +234,9 @@ std::string text2cgi(const std::string& textstr)
 
 unsigned char dec2hex(char c)
 {
-	if (c < 10)
+	if (c < 0)
+		return 0;
+	else if (c < 10)
 		return c + '0';
 	else if (c < 16)
 		return c - 10 + 'A';
