@@ -1,12 +1,10 @@
 /*
  * header.cxx
  *
- * $Id$
- *
  */
 
 /*
- * Copyright (C) 2002-2004 Isaac W. Foraker (isaac@tazthecat.net)
+ * Copyright (C) 2002-2004 Isaac W. Foraker (isaac at noscience dot net)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without

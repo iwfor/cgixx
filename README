@@ -1,5 +1,5 @@
 cgixx CGI C++ Class Library
-Copyright (C) 2002-2004 Isaac W. Foraker (isaac@tazthecat.net)
+Copyright (C) 2002-2004 Isaac W. Foraker (isaac at noscience dot net)
 All Rights Reserved
 
 See LICENSE for more information
@@ -9,4 +9,4 @@ requests and HTTP responses with cookie support.  The library is commented with
 Doxygen.  The reference pages are available in doc/html/.
 
 For up to date news and documentation on the cgixx project, go to
-http://tazthecat.net/~isaac/cgixx/.
+http://projects.noscience.net/cgixx.
